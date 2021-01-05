@@ -1,29 +1,13 @@
 'use strict';
 
-//import React, { Component } from 'react'; // 1
 import * as React from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { version } from './package.json'
-
-
-// At the top where our imports are...
+import { version } from '../package.json'
 import VideoPlayer from 'react-native-video-controls';
 import YouTube from 'react-native-youtube';
-
-type Props = {};
-
-/*
-class HomeScreen extends Component<Props> {
-    render() {
-      //return React.createElement(Text, {style: styles.description}, "Search for houses to buy!");
-      return (
-        <Text style={styles.description}>Search for houses to buy!</Text>
-      );
-    }
-} // 3*/
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -34,7 +18,7 @@ const HomeScreen = ({ navigation }) => {
         navigation.navigate('Video', { name: 'Jane' })
       }
     />
-    <Text>V.{version} </Text>
+    <Text>V.{version}</Text>
     </>
   );
 };
@@ -69,16 +53,12 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Welcome'}}/>
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'GoodForm'}}/>
         <Stack.Screen name="Video" component={VideoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-/*
-const App = createStackNavigator({
-  Home: { screen: SearchPage },
-});*/
 export default App;
 
 const styles = StyleSheet.create({
