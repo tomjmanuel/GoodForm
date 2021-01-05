@@ -19,6 +19,7 @@ const HomeScreen = ({ navigation }) => {
       }
     />
     <Text>V.{version}</Text>
+    <Text>More text!</Text>
     </>
   );
 };
