@@ -6,6 +6,8 @@ import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { version } from './package.json'
+
 
 // At the top where our imports are...
 import VideoPlayer from 'react-native-video-controls';
@@ -25,12 +27,15 @@ class HomeScreen extends Component<Props> {
 
 const HomeScreen = ({ navigation }) => {
   return (
+  <>
     <Button
       title="Go to Jane's profile"
       onPress={() =>
         navigation.navigate('Video', { name: 'Jane' })
       }
     />
+    <Text>V.{version} </Text>
+    </>
   );
 };
 
