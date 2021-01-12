@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import VideoPlayer from 'react-native-video-controls';
 import YouTube from 'react-native-youtube';
 import 'react-native-gesture-handler';
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Youtube_compare = ({ navigation }) => {
+const Youtube_compare = ({ navigation, route }) => {
   return (
     <>
         <YouTube
@@ -30,12 +30,15 @@ const Youtube_compare = ({ navigation }) => {
           //onChangeState={e => this.setState({ status: e.state })}
           //onChangeQuality={e => this.setState({ quality: e.quality })}
           //onError={e => this.setState({ error: e.error })}
+          scrubbing = "100"
           style={{ alignSelf: 'stretch', height: 300 }}
         />
-        <Text>whattup bit</Text>
         <VideoPlayer
-          source={{uri: 'https://vjs.zencdn.net/v/oceans.mp4'}}
+          source={{uri: route.params.vidlink}}
           navigator={navigation}
+        />
+        <Button
+          title="Play both"
         />
     </>
   );

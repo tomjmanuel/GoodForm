@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 });
 
 const Select1 = ({ navigation }) => {
-
+  const [sour, setSour] = useState({uri: 'https://vjs.zencdn.net/v/oceans.mp4'});
   function selectImage() {
     let options = {
       title: 'Choose one image',
@@ -28,11 +28,10 @@ const Select1 = ({ navigation }) => {
               Alert.alert('You did not select any image');
             } else if (response.error) {
               console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-              console.log('User tapped custom button: ', response.customButton);
             } else {
               let source = { uri: response.uri };
               console.log({ source });
+              setSour(response.uri);
             }
           });
     }
@@ -44,9 +43,14 @@ const Select1 = ({ navigation }) => {
             title="Select local video"
             onPress={selectImage}
             />
+            <Text>"select vid before pressing compare"</Text>
             <Button
               title="Compare Videos now"
-              onPress={() => navigation.navigate('YoutubeCompare')}
+              onPress={() => navigation.navigate('YoutubeCompare', {vidlink: sour})}
+            />
+            <Button
+              title="use state"
+              onPress={() => setSour('hey')}
             />
     </View>
   );
