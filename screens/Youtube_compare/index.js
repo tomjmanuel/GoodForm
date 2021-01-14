@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import VideoPlayer from 'react-native-video-controls';
 import YouTube from 'react-native-youtube';
@@ -18,27 +18,42 @@ const styles = StyleSheet.create({
 });
 
 const Youtube_compare = ({ navigation, route }) => {
+  const [check, setCheck] = useState(false);
+  function togglePlayback() {
+    console.log('Current playback state: ');
+    console.log({check});
+    setCheck(prevCheck => !prevCheck);
+    console.log('New playback state: ');
+    console.log({check});
+  }
   return (
     <>
         <YouTube
           apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
           videoId="F0PW2sVi2EQ" // The YouTube video ID
-          //play // control playback of video with true/false
-          //fullscreen // control whether the video should play in fullscreen or inline
-          //loop // control whether the video should loop when ended
-          //onReady={e => this.setState({ isReady: true })}
-          //onChangeState={e => this.setState({ status: e.state })}
-          //onChangeQuality={e => this.setState({ quality: e.quality })}
-          //onError={e => this.setState({ error: e.error })}
-          scrubbing = "100"
+          showFullscreenButton = { false }
+          modestbranding = { true }
           style={{ alignSelf: 'stretch', height: 300 }}
+          controls = {1}
+          loop = {true}
+          play = {check}
         />
         <VideoPlayer
           source={{uri: route.params.vidlink}}
+          paused={!check}
           navigator={navigation}
+          scrubbing={5}
+          tapAnywhereToPause={false}
+          controlTimeout = {1600}
+          disableFullscreen = {true}
+          disableVolume = {true}
+          disableBack = {true}
+          disableTimer = {true}
+          style={{ alignSelf: 'stretch', height: 300 }}
         />
         <Button
           title="Play both"
+          onPress={() => togglePlayback()}
         />
     </>
   );
