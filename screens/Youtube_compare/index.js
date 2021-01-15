@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import VideoPlayer from 'react-native-video-controls';
+import React, {useState, Component} from 'react';
+import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
+import Video from 'react-native-video';
 import YouTube from 'react-native-youtube';
 import 'react-native-gesture-handler';
 /*
@@ -17,14 +17,67 @@ const styles = StyleSheet.create({
   },
 });
 
+class VideoComp extends Component {
+
+    constructor(props){
+        super(props);
+    }
+
+    state = {
+        paused: false,
+        progress: 0,
+        duration: 0
+    }
+
+    handleProgress = (progress) => {
+        this.setState({
+            progress: progress.currentTime
+        });
+    }
+
+    stepForward = () => {
+        console.log(this.state.progress);
+        this.player.seek(this.state.progress+.5,50);
+    }
+
+    handleLoad = (meta) => {
+        this.setState({
+            duration: meta.duration
+        })
+    }
+
+    render() {
+        const { width } = Dimensions.get('window');
+        const height = width * 0.5625;
+        return (
+        <>
+            <Video
+              source={{uri: this.props.source}}
+              ref = {ref => this.player = ref}
+              style = {{width: '100%', height}}
+              paused = {this.state.paused}
+              onProgress = {this.handleProgress}
+              onLoad = {this.handleLoad}
+              controls = {true}
+              resizeMode = 'contain'
+              progressUpdateInterval = {200}
+            />
+            <Button
+                title=">>"
+                onPress={() => this.stepForward()}
+            />
+        </>
+        )
+    }
+}
+
 const Youtube_compare = ({ navigation, route }) => {
   const [check, setCheck] = useState(false);
+  const [time, setTime] = useState(1);
   function togglePlayback() {
     console.log('Current playback state: ');
     console.log({check});
     setCheck(prevCheck => !prevCheck);
-    console.log('New playback state: ');
-    console.log({check});
   }
   return (
     <>
@@ -38,19 +91,7 @@ const Youtube_compare = ({ navigation, route }) => {
           loop = {true}
           play = {check}
         />
-        <VideoPlayer
-          source={{uri: route.params.vidlink}}
-          paused={!check}
-          navigator={navigation}
-          scrubbing={5}
-          tapAnywhereToPause={false}
-          controlTimeout = {1600}
-          disableFullscreen = {true}
-          disableVolume = {true}
-          disableBack = {true}
-          disableTimer = {true}
-          style={{ alignSelf: 'stretch', height: 300 }}
-        />
+        <VideoComp source={route.params.vidlink}/>
         <Button
           title="Play both"
           onPress={() => togglePlayback()}
