@@ -37,7 +37,12 @@ class VideoComp extends Component {
 
     stepForward = () => {
         console.log(this.state.progress);
-        this.player.seek(this.state.progress+.5,50);
+        this.player.seek(this.state.progress+.5,0);
+    }
+
+    stepBackward = () => {
+        console.log(this.state.progress);
+        this.player.seek(this.state.progress-.5,0);
     }
 
     handleLoad = (meta) => {
@@ -46,25 +51,50 @@ class VideoComp extends Component {
         })
     }
 
+    togglePlayback = () => {
+        this.setState({
+            paused: !this.state.paused
+        });
+    }
+
     render() {
         const { width } = Dimensions.get('window');
         const height = width * 0.5625;
         return (
         <>
+            <YouTube
+              apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
+              videoId="F0PW2sVi2EQ" // The YouTube video ID
+              showFullscreenButton = { false }
+              modestbranding = { true }
+              style={{ alignSelf: 'stretch', height: 300 }}
+              controls = {1}
+              loop = {true}
+              play = {!this.state.paused}
+            />
             <Video
               source={{uri: this.props.source}}
               ref = {ref => this.player = ref}
               style = {{width: '100%', height}}
               paused = {this.state.paused}
               onProgress = {this.handleProgress}
+              onSeek = {this.handleProgress}
               onLoad = {this.handleLoad}
               controls = {true}
               resizeMode = 'contain'
               progressUpdateInterval = {200}
             />
             <Button
-                title=">>"
+                title="<<"
                 onPress={() => this.stepForward()}
+            />
+            <Button
+                title=">>"
+                onPress={() => this.stepBackward()}
+            />
+            <Button
+              title="Play both"
+              onPress={() => this.togglePlayback()}
             />
         </>
         )
@@ -81,21 +111,7 @@ const Youtube_compare = ({ navigation, route }) => {
   }
   return (
     <>
-        <YouTube
-          apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
-          videoId="F0PW2sVi2EQ" // The YouTube video ID
-          showFullscreenButton = { false }
-          modestbranding = { true }
-          style={{ alignSelf: 'stretch', height: 300 }}
-          controls = {1}
-          loop = {true}
-          play = {check}
-        />
         <VideoComp source={route.params.vidlink}/>
-        <Button
-          title="Play both"
-          onPress={() => togglePlayback()}
-        />
     </>
   );
 };
