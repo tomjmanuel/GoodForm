@@ -55,13 +55,13 @@ class VideoComp extends Component {
     }
 
     state = {
-        pausedYT: true,
-        pausedV: true,
+        pausedYT: false,
+        pausedV: false,
         progress: 0.0,
         duration: 0,
         currentTime: 0,
         error: null,
-        mode: 'Local',
+        mode: 'Both',
         speed: 1.0,
         speedString: '1x'
     }
@@ -74,12 +74,12 @@ class VideoComp extends Component {
 
     stepForward = () => {
         if (this.state.mode =='Local' || this.state.mode =='Both'){
-            this.player.seek(this.state.progress+.5,0);
+            this.player.seek(this.state.progress+3,0);
             };
 
         if (this.state.mode =='Youtube' || this.state.mode == 'Both'){
             //youtube portion
-            this._youTubeRef.current.seekTo(this.state.currentTime+1);
+            this._youTubeRef.current.seekTo(this.state.currentTime+3);
             if (this._youTubeRef.current) {
               this._youTubeRef.current
                 .getCurrentTime()
@@ -267,7 +267,7 @@ class VideoComp extends Component {
                 <View style={styles.buttonRow}>
                     <Button
                         style={styles.button}
-                        title="   <<    "
+                        title="  <<   "
                         onPress={() => this.stepBackward()}
                     />
                     <Button
@@ -277,8 +277,13 @@ class VideoComp extends Component {
                     />
                     <Button
                         style={styles.button}
-                        title="   >>    "
+                        title="  >>   "
                         onPress={() => this.stepForward2()}
+                    />
+                    <Button
+                        style={styles.button}
+                        title="  >>>>  "
+                        onPress={() => this.stepForward()}
                     />
                     <Button
                         style={styles.button}
