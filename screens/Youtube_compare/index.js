@@ -13,8 +13,8 @@ This page comes after select1 page where the user choose a local video and a you
 var { height, width } = Dimensions.get('window');
 console.log(width)
 var box_count = 2;
-var controlheight= 200;
-var box_height = height / box_count - controlheight/2;
+var controlheight= 100;
+var box_height = (height / box_count )- (controlheight/2)-10;
 
 const styles = StyleSheet.create({
   container: {
@@ -38,12 +38,13 @@ const styles = StyleSheet.create({
   buttonRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    height: '100%',
+    backgroundColor: '#2196F3'
   },
   button: {
-    backgroundColor: 'green',
     width: '30%',
-    height: '40'
+    height: '100%'
   }
 });
 
@@ -54,25 +55,67 @@ class VideoComp extends Component {
     }
 
     state = {
-        paused: false,
-        progress: 0,
-        duration: 0
+        pausedYT: true,
+        pausedV: true,
+        progress: 0.0,
+        duration: 0,
+        currentTime: 0.0,
+        error: null,
+        mode: 'Youtube',
+        speed: 1.0,
+        speedString: '1x'
     }
 
     handleProgress = (progress) => {
         this.setState({
-            progress: progress.currentTime
+            progress: progress.currentTime,
         });
     }
 
     stepForward = () => {
-        console.log(this.state.progress);
-        this.player.seek(this.state.progress+.5,0);
+        if (this.state.mode =='Local' || this.state.mode =='Both'){
+            this.player.seek(this.state.progress+.5,0);
+            };
+
+        if (this.state.mode =='Youtube' || this.state.mode == 'Both'){
+            //youtube portion
+            this._youTubeRef.current.seekTo(this.state.currentTime+1);
+            if (this._youTubeRef.current) {
+              this._youTubeRef.current
+                .getCurrentTime()
+                .then(currentTime => {
+                  this.setState({ currentTime });
+                })
+                .catch(errorMessage => {
+                  this.setState({ error: errorMessage });
+                });
+                console.log(this.state.currentTime);
+
+            }
+        };
     }
 
     stepBackward = () => {
-        console.log(this.state.progress);
-        this.player.seek(this.state.progress-.5,0);
+        if (this.state.mode =='Local' || this.state.mode =='Both'){
+            this.player.seek(this.state.progress-.5,0);
+            };
+
+        if (this.state.mode =='Youtube' || this.state.mode == 'Both'){
+            //youtube portion
+            this._youTubeRef.current.seekTo(this.state.currentTime-1);
+            if (this._youTubeRef.current) {
+              this._youTubeRef.current
+                .getCurrentTime()
+                .then(currentTime => {
+                  this.setState({ currentTime });
+                })
+                .catch(errorMessage => {
+                  this.setState({ error: errorMessage });
+                });
+                console.log(this.state.currentTime);
+
+            }
+        };
     }
 
     handleLoad = (meta) => {
@@ -82,9 +125,84 @@ class VideoComp extends Component {
     }
 
     togglePlayback = () => {
+        if (this.state.mode == 'Youtube'|| this.state.mode == 'Both'){
+            this.setState({
+                pausedYT: !this.state.pausedYT
+            });
+        }
+        if (this.state.mode == 'Local'|| this.state.mode == 'Both'){
+            this.setState({
+                pausedV: !this.state.pausedV
+            });
+        }
+    }
+
+    changeMode = () => {
+        if (this.state.mode == 'Youtube'){
+            this.setState({
+                mode: 'Local'
+            });
+        }
+        if (this.state.mode == 'Local'){
+            this.setState({
+                mode: 'Both'
+            });
+        }
+        if (this.state.mode == 'Both'){
+            this.setState({
+                mode: 'Youtube'
+            });
+        }
+        console.log(this.state.mode);
+        }
+
+    changeSpeed = () => {
+    var str2 = 'X';
+    if (this.state.speed < 4 && this.state.speed >=1){
         this.setState({
-            paused: !this.state.paused
+            speed: this.state.speed+.5
         });
+        var str1 = (this.state.speed+.5).toString();
+        var str3 = str1.substring(0,3);
+        var strFinal = str3.concat('X');
+    }
+    if (this.state.speed >= 4){
+        this.setState({
+            speed: 0.2
+        });
+        var str1 = (0.2).toString();
+        var str3 = str1.substring(0,3);
+        var strFinal = str3.concat('X');
+    }
+    if (this.state.speed < 1){
+        this.setState({
+            speed: this.state.speed + 0.2
+        });
+        var str1 = (this.state.speed+0.2).toString();
+        var str3 = str1.substring(0,3);
+        var strFinal = str3.concat('X');
+    }
+
+    this.setState({
+        speedString: strFinal
+    });
+
+    console.log(strFinal);
+    }
+
+    _youTubeRef = React.createRef();
+
+    updateYT = () => {
+        if (this._youTubeRef.current) {
+          this._youTubeRef.current
+            .getCurrentTime()
+            .then(currentTime => {
+              this.setState({ currentTime });
+            })
+            .catch(errorMessage => {
+              this.setState({ error: errorMessage });
+            });
+        };
     }
 
     render() {
@@ -93,28 +211,18 @@ class VideoComp extends Component {
         return (
         <View style={styles.container}>
             <View style={[styles.box, styles.box1]}>
-                <ReactNativeZoomableView
-                   maxZoom={1.5}
-                   minZoom={1}
-                   zoomStep={0.3}
-                   initialZoom={1}
-                   bindToBorders={true}
-                   style={{
-                      padding: 0,
-                      backgroundColor: 'black',
-                   }}
-                >
-                    <YouTube
-                      apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
-                      videoId="F0PW2sVi2EQ" // The YouTube video ID
-                      showFullscreenButton = { false }
-                      modestbranding = { true }
-                      style={{ alignSelf: 'stretch', height: box_height }}
-                      controls = {1}
-                      loop = {true}
-                      play = {!this.state.paused}
-                    />
-                </ReactNativeZoomableView>
+                <YouTube
+                  apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
+                  videoId="F0PW2sVi2EQ" // The YouTube video ID
+                  showFullscreenButton = { false }
+                  modestbranding = { true }
+                  style={{ alignSelf: 'stretch', height: box_height }}
+                  controls = {1}
+                  loop = {true}
+                  play = {!this.state.pausedYT}
+                  ref = {this._youTubeRef}
+                  onChangeState = {() => this.updateYT()}
+                />
             </View>
             <View style={[styles.box, styles.box2]}>
                 <ReactNativeZoomableView
@@ -132,35 +240,45 @@ class VideoComp extends Component {
                       source={{uri: this.props.source}}
                       ref = {ref => this.player = ref}
                       style = {{width: '100%', height}}
-                      paused = {this.state.paused}
+                      paused = {this.state.pausedV}
                       onProgress = {this.handleProgress}
                       onSeek = {this.handleProgress}
                       onLoad = {this.handleLoad}
                       controls = {true}
                       resizeMode = 'contain'
                       progressUpdateInterval = {200}
+                      rate = {this.state.speed}
+
                     />
                 </ReactNativeZoomableView>
             </View>
-            <View style={styles.box3}>
                 <View style={styles.buttonRow}>
                     <Button
                         style={styles.button}
-                        title="<<"
-                        onPress={() => this.stepForward()}
-                    />
-                    <Button
-                        style={styles.button}
-                        title=">>"
+                        title="   <<    "
                         onPress={() => this.stepBackward()}
                     />
                     <Button
                         style={styles.button}
-                        title="Play both"
+                        title={this.state.mode}
+                        onPress={() => this.changeMode()}
+                    />
+                    <Button
+                        style={styles.button}
+                        title="   >>    "
+                        onPress={() => this.stepForward()}
+                    />
+                    <Button
+                        style={styles.button}
+                        title="Play"
                         onPress={() => this.togglePlayback()}
                     />
+                    <Button
+                        style={styles.button}
+                        title={this.state.speedString}
+                        onPress={() => this.changeSpeed()}
+                    />
                 </View>
-            </View>
         </View>
         )
     }
