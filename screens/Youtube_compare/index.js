@@ -59,9 +59,9 @@ class VideoComp extends Component {
         pausedV: true,
         progress: 0.0,
         duration: 0,
-        currentTime: 0.0,
+        currentTime: 0,
         error: null,
-        mode: 'Youtube',
+        mode: 'Local',
         speed: 1.0,
         speedString: '1x'
     }
@@ -93,6 +93,16 @@ class VideoComp extends Component {
 
             }
         };
+    }
+
+    stepForward2 = () => {
+        // use play pause to step forward instead of seek
+        this.togglePlayback();
+        setTimeout(() => {this.togglePlayback()}, 50);
+    }
+
+    resetPlayback = () =>{
+        this.togglePlayback();
     }
 
     stepBackward = () => {
@@ -188,6 +198,7 @@ class VideoComp extends Component {
     });
 
     console.log(strFinal);
+    console.log(this.state.error)
     }
 
     _youTubeRef = React.createRef();
@@ -214,10 +225,11 @@ class VideoComp extends Component {
                 <YouTube
                   apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
                   videoId="F0PW2sVi2EQ" // The YouTube video ID
+                  onError={e=> {this.setState({error: e.error});}}
                   showFullscreenButton = { false }
                   modestbranding = { true }
                   style={{ alignSelf: 'stretch', height: box_height }}
-                  controls = {1}
+                  controls = {0}
                   loop = {true}
                   play = {!this.state.pausedYT}
                   ref = {this._youTubeRef}
@@ -244,7 +256,7 @@ class VideoComp extends Component {
                       onProgress = {this.handleProgress}
                       onSeek = {this.handleProgress}
                       onLoad = {this.handleLoad}
-                      controls = {true}
+                      controls = {false}
                       resizeMode = 'contain'
                       progressUpdateInterval = {200}
                       rate = {this.state.speed}
@@ -266,7 +278,7 @@ class VideoComp extends Component {
                     <Button
                         style={styles.button}
                         title="   >>    "
-                        onPress={() => this.stepForward()}
+                        onPress={() => this.stepForward2()}
                     />
                     <Button
                         style={styles.button}
