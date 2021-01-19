@@ -48,10 +48,6 @@ const Select1 = ({ navigation }) => {
               title="Compare Videos now"
               onPress={() => navigation.navigate('YoutubeCompare', {vidlink: sour})}
             />
-            <Button
-              title="use state"
-              onPress={() => setSour('hey')}
-            />
     </View>
   );
 };
