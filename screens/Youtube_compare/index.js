@@ -234,6 +234,7 @@ class VideoComp extends Component {
                   play = {!this.state.pausedYT}
                   ref = {this._youTubeRef}
                   onChangeState = {() => this.updateYT()}
+                  resumePlayAndroid = {false}
                 />
             </View>
             <View style={[styles.box, styles.box2]}>
