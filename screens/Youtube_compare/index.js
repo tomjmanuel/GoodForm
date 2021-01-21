@@ -101,13 +101,9 @@ class VideoComp extends Component {
         setTimeout(() => {this.togglePlayback()}, 50);
     }
 
-    resetPlayback = () =>{
-        this.togglePlayback();
-    }
-
     stepBackward = () => {
         if (this.state.mode =='Local' || this.state.mode =='Both'){
-            this.player.seek(this.state.progress-.5,0);
+            this.player.seek(this.state.progress-(1 * this.state.speed),0);
             };
 
         if (this.state.mode =='Youtube' || this.state.mode == 'Both'){
