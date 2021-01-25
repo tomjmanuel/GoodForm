@@ -1,9 +1,8 @@
 import React, {useState, Component} from 'react';
-import { View, Text, Button, StyleSheet, Alert, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Button, StyleSheet, Alert, TouchableOpacity, TouchableHighlight, Dimensions, Modal, TextInput } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import { FlatList } from 'react-native-gesture-handler';
 import { List, ListItem, SearchBar } from "react-native-elements";
-// this is the Apps Landing page
 
 // get page dimensions
 var { height, width } = Dimensions.get('window');
@@ -13,9 +12,9 @@ var controlheight= 10;
 var box_height = (height / box_count )- (controlheight/2)-10;
 
 sampleData = [
-  {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle'},
-  {key: '2', vidTag: '4M6wvGXeBeI', name: 'Paul'},
-  {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage'}
+  {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle Backhand'},
+  {key: '2', vidTag: '4M6wvGXeBeI', name: 'Paul Backhand'},
+  {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage Video from euro open'}
 ]
 
 const styles = StyleSheet.create({
@@ -38,7 +37,21 @@ const styles = StyleSheet.create({
   },
   button1:{
     color: '#03fcc6'
-  }
+  },
+  selected:{
+    backgroundColor: "#DDDDDD",
+  },
+  modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      }}
 });
 
 
@@ -51,13 +64,17 @@ class Select1Comp extends Component {
   state = {
     data: sampleData,
     selected: '1',
-    selectedVideo: '4M6wvGXeBeI'
+    selectedVideo: '4M6wvGXeBeI',
+    modalVis: false,
+    nickname: '',
+    vidInput: ''
   }
 
     // this gets called after add item and selected
      componentDidUpdate(){
        console.log('Updated');
-       console.log(this.state.selected);
+       console.log(this.state.nickname);
+       console.log(this.state.vidInput);
      }
 
     renderSeparator = () => {
@@ -77,16 +94,27 @@ class Select1Comp extends Component {
         this.setState({ selected: item.key});
     }
 
+    //show modal
+    showModal = () => {
+        this.setState({ modalVis: !this.state.modalVis});
+    }
+
     //addItem adds a new element to flatlist
+    // will eventually be called after modal based input
     addItem = () => {
         console.log('addItem');
-        console.log(sampleData);
         var LL = sampleData.length + 1;
         var lS = LL.toString();
-        sampleData = [...sampleData , {key : lS, vidTag: 'T6jHGWiHdsw', name: 'Jones'}];
+        sampleData = [...sampleData , {key : lS, vidTag: this.state.vidInput, name: this.state.nickname}];
         this.setState({
             data: sampleData
         });
+    }
+
+    removeItem = () => {
+        console.log('removeItem');
+        //delete sampleData[this.state.selected];
+        //console.log(sampleData);
     }
 
 
@@ -94,20 +122,68 @@ class Select1Comp extends Component {
   const {data} = this.state
   return (
         <>
+        <Text> Choose Youtube video </Text>
         <FlatList
             data={data}
             renderItem={({item}) =>
-            <Text
-                onPress={this.getListViewItem.bind(this, item)}>{item.key}
-            </Text>}
+            <TouchableOpacity
+                onPress={this.getListViewItem.bind(this, item)}
+                style={item.key === this.state.selected ? styles.selected : null}
+                >
+                <Text>{item.name}</Text>
+            </TouchableOpacity>}
             ItemSeparatorComponent={this.renderSeparator}
       />
       <Button
         color = "#03fcc6"
-        onPress={this.addItem}
+        onPress={this.showModal}
         title= "addItem"
 
       />
+        <Button
+          color = "#f54542"
+          onPress={this.removeItem}
+          title= "remove item"
+
+        />
+        <Modal
+              animationType="slide"
+              transparent={true}
+              visible={this.state.modalVis}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+              }}
+            >
+            <View style={styles.modalView}>
+              <Text>Video nickname</Text>
+                  <TextInput
+                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    onChangeText={text => this.setState({nickname: text})}
+                    value={this.state.nickname}
+                  />
+              <Text>Youtube video URL</Text>
+                <TextInput
+                  style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                  onChangeText={text => this.setState({vidInput: text})}
+                  value={this.state.vidInput}
+                />
+              <TouchableHighlight
+                onPress={() => {
+                  this.setState({modalVis: false});
+                  this.addItem();
+                }}
+              >
+                <Text>Save video link</Text>
+              </TouchableHighlight>
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setState({modalVis: false});
+                  }}
+                >
+                  <Text>Cancel</Text>
+                </TouchableHighlight>
+            </View>
+        </Modal>
       </>
   );
   }
