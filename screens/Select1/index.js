@@ -13,9 +13,9 @@ var controlheight= 10;
 var box_height = (height / box_count )- (controlheight/2)-10;
 
 sampleData = [
-  {key: '0', pressed: false},
-  {key: '1', pressed: false},
-  {key: '2', pressed: false}
+  {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle'},
+  {key: '2', vidTag: '4M6wvGXeBeI', name: 'Paul'},
+  {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage'}
 ]
 
 const styles = StyleSheet.create({
@@ -49,24 +49,15 @@ class Select1Comp extends Component {
   }
 
   state = {
-    data: sampleData
+    data: sampleData,
+    selected: '1',
+    selectedVideo: '4M6wvGXeBeI'
   }
 
-  changeItem(item)
-  {
-    this.setState( (prevState) => {
-      prevState.data.map(a=>a.pressed=false);
-      prevState.data[item.key] = { ...item, pressed: !item.pressed}
-      return{
-        ...prevState,
-        data: [...prevState.data]
-        //data: [...sampleData]
-      }
-      });
-  };
-
+    // this gets called after add item and selected
      componentDidUpdate(){
-       console.log(this.state.data)
+       console.log('Updated');
+       console.log(this.state.selected);
      }
 
     renderSeparator = () => {
@@ -83,14 +74,16 @@ class Select1Comp extends Component {
     //handling onPress action
     getListViewItem = (item) => {
         Alert.alert(item.key);
+        this.setState({ selected: item.key});
     }
 
+    //addItem adds a new element to flatlist
     addItem = () => {
-        console.log('hey');
+        console.log('addItem');
         console.log(sampleData);
         var LL = sampleData.length + 1;
         var lS = LL.toString();
-        sampleData = [...sampleData , {key : lS, pressed: false}];
+        sampleData = [...sampleData , {key : lS, vidTag: 'T6jHGWiHdsw', name: 'Jones'}];
         this.setState({
             data: sampleData
         });
@@ -110,6 +103,7 @@ class Select1Comp extends Component {
             ItemSeparatorComponent={this.renderSeparator}
       />
       <Button
+        color = "#03fcc6"
         onPress={this.addItem}
         title= "addItem"
 
@@ -122,13 +116,6 @@ class Select1Comp extends Component {
 const Select1 = ({ navigation }) => {
 
     const [sour, setSour] = useState({uri: 'https://vjs.zencdn.net/v/oceans.mp4'});
-
-    function addElement (){
-        console.log(sampleData);
-        var LL = sampleData.length + 1;
-        var lS = LL.toString();
-        sampleData = [...sampleData , {key : lS, pressed: false}];
-      }
 
     function selectImage() {
     let options = {
@@ -166,11 +153,6 @@ const Select1 = ({ navigation }) => {
                 <Button
                     title="Compare Videos now"
                     onPress={() => navigation.navigate('YoutubeCompare', {vidlink: sour})}
-                />
-                <Button
-                    color='#03fcc6'
-                    title="Add element"
-                    onPress={addElement}
                 />
             </View>
         </View>
