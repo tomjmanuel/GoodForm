@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, Alert, TouchableOpacity, TouchableHighl
 import {launchImageLibrary} from 'react-native-image-picker';
 import { FlatList } from 'react-native-gesture-handler';
 import { List, ListItem, SearchBar } from "react-native-elements";
+import parseYouTubeUrl from '../../parseYouTubeUrl';
 
 // get page dimensions
 var { height, width } = Dimensions.get('window');
@@ -107,7 +108,9 @@ class Select1Comp extends Component {
         console.log('addItem');
         var LL = this.state.data.length + 1;
         var lS = LL.toString();
-        sampleData = [...this.state.data , {key : lS, vidTag: this.state.vidInput, name: this.state.nickname}];
+        const result = parseYouTubeUrl(this.state.vidInput);
+        console.log(result);
+        sampleData = [...this.state.data , {key : lS, vidTag: result.videoId, name: this.state.nickname}];
         this.setState({
             data: sampleData
         });

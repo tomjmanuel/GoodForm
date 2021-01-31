@@ -26,7 +26,8 @@
     "react-native-video": "^5.1.1",
     "react-native-video-controls": "^2.7.1",
     "react-native-youtube": "^2.0.1",
-    "react-navigation": "^4.4.3"
+    "react-navigation": "^4.4.3",
+    "url-pattern": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
