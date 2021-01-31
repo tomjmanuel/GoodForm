@@ -220,7 +220,7 @@ class VideoComp extends Component {
             <View style={[styles.box, styles.box1]}>
                 <YouTube
                   apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
-                  videoId="F0PW2sVi2EQ" // The YouTube video ID
+                  videoId={this.props.ytID} // The YouTube video ID
                   onError={e=> {this.setState({error: e.error});}}
                   showFullscreenButton = { false }
                   modestbranding = { true }
@@ -308,7 +308,7 @@ const Youtube_compare = ({ navigation, route }) => {
   }
   return (
     <>
-        <VideoComp source={route.params.vidlink}/>
+        <VideoComp source={route.params.vidlink} ytID={route.params.ytID}/>
     </>
   );
 };

@@ -17,6 +17,8 @@ sampleData = [
   {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage Video from euro open'}
 ]
 
+var ytID = "F0PW2sVi2EQ";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -75,6 +77,7 @@ class Select1Comp extends Component {
        console.log('Updated');
        console.log(this.state.nickname);
        console.log(this.state.vidInput);
+       ytID = this.state.selectedVideo;
      }
 
     renderSeparator = () => {
@@ -90,8 +93,7 @@ class Select1Comp extends Component {
     };
     //handling onPress action
     getListViewItem = (item) => {
-        Alert.alert(item.key);
-        this.setState({ selected: item.key});
+        this.setState({ selected: item.key, selectedVideo: item.vidTag });
     }
 
     //show modal
@@ -228,7 +230,7 @@ const Select1 = ({ navigation }) => {
             <View style={[styles.box, styles.box3]}>
                 <Button
                     title="Compare Videos now"
-                    onPress={() => navigation.navigate('YoutubeCompare', {vidlink: sour})}
+                    onPress={() => navigation.navigate('YoutubeCompare', {vidlink: sour, ytID: ytID})}
                 />
             </View>
         </View>
