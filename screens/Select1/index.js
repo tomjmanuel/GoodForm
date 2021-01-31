@@ -105,9 +105,9 @@ class Select1Comp extends Component {
     // will eventually be called after modal based input
     addItem = () => {
         console.log('addItem');
-        var LL = sampleData.length + 1;
+        var LL = this.state.data.length + 1;
         var lS = LL.toString();
-        sampleData = [...sampleData , {key : lS, vidTag: this.state.vidInput, name: this.state.nickname}];
+        sampleData = [...this.state.data , {key : lS, vidTag: this.state.vidInput, name: this.state.nickname}];
         this.setState({
             data: sampleData
         });
@@ -115,8 +115,18 @@ class Select1Comp extends Component {
 
     removeItem = () => {
         console.log('removeItem');
-        //delete sampleData[this.state.selected];
-        //console.log(sampleData);
+        // iterate through data
+        var LL = this.state.data.length+1;
+        var newData = [];
+        for (var i=1; i<LL; i++){
+            if (i.toString()!=this.state.selected){
+                console.log(i.toString());
+                newData.push(this.state.data[i-1]);
+            }
+        }
+        this.setState({
+            data: newData
+        });
     }
 
 
