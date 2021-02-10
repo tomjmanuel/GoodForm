@@ -1,5 +1,5 @@
 import React, {useState, Component} from 'react';
-import { View, Text, Button, StyleSheet, Alert, TouchableOpacity, TouchableHighlight, Dimensions, Modal, TextInput } from 'react-native';
+import { View, Image, Text, Button, StyleSheet, Alert, TouchableOpacity, TouchableHighlight, Dimensions, Modal, TextInput } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import { FlatList } from 'react-native-gesture-handler';
 import { List, ListItem, SearchBar } from "react-native-elements";
@@ -8,9 +8,10 @@ import parseYouTubeUrl from '../../parseYouTubeUrl';
 // get page dimensions
 var { height, width } = Dimensions.get('window');
 console.log(width)
-var box_count = 3;
-var controlheight= 10;
-var box_height = (height / box_count )- (controlheight/2)-10;
+var box_count = 2;
+var y2height= 80;
+var compare_height = 150;
+var box_height = (height-y2height-compare_height )/ box_count;
 
 sampleData = [
   {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle Backhand'},
@@ -25,18 +26,54 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column'
   },
+  whiteText: {
+    color: 'white',
+    textAlign: 'center',
+    padding: 10
+  },
+  icon: {
+    resizeMode: 'contain',
+    height: 100,
+    width:200
+  },
+  y2logo: {
+    height: 30,
+    width:200,
+    resizeMode: 'contain',
+  },
+  y2Text:{
+    color: 'white',
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  listText:{
+    fontSize: 18,
+    padding: 10
+  },
+  y2View: {
+    padding: 20,
+    flexDirection:'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#006AEA',
+    height: y2height
+  },
   box: {
     height: box_height,
     overflow: 'hidden'
   },
   box1: {
-    backgroundColor: '#fc7f03'
+    backgroundColor: '#0018C6',
+    height: 100
   },
   box2: {
-    backgroundColor: '#8BC34A'
+    backgroundColor: '#32BAFA'
   },
   box3: {
-    backgroundColor: '#e3aa1a'
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#0018C6'
   },
   button1:{
     color: '#03fcc6'
@@ -137,7 +174,6 @@ class Select1Comp extends Component {
   const {data} = this.state
   return (
         <>
-        <Text> Choose Youtube video </Text>
         <FlatList
             data={data}
             renderItem={({item}) =>
@@ -145,7 +181,7 @@ class Select1Comp extends Component {
                 onPress={this.getListViewItem.bind(this, item)}
                 style={item.key === this.state.selected ? styles.selected : null}
                 >
-                <Text>{item.name}</Text>
+                <Text style={styles.listText}>{item.name}</Text>
             </TouchableOpacity>}
             ItemSeparatorComponent={this.renderSeparator}
       />
@@ -232,15 +268,31 @@ const Select1 = ({ navigation }) => {
     return(
         <View style={styles.container}>
             <View style={[styles.box, styles.box3]}>
-                <Button
+                <TouchableOpacity
                     title="Select local video"
                     onPress={selectImage}
+
+                >
+                    <Text style={styles.whiteText}>Select your video</Text>
+                    <Image
+                        style={styles.icon}
+                        source={require('./cameraicon.png')}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View style={styles.y2View}>
+                <Text style={styles.y2Text}>
+                    Links from
+                </Text>
+                <Image
+                    style={styles.y2logo}
+                    source={require('./yt_logo_rgb_dark.png')}
                 />
             </View>
             <View style={[styles.box, styles.box2]}>
                 <Select1Comp/>
             </View>
-            <View style={[styles.box, styles.box3]}>
+            <View style={styles.box1}>
                 <Button
                     title="Compare Videos now"
                     onPress={() => navigation.navigate('YoutubeCompare', {vidlink: sour, ytID: ytID})}
