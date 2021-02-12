@@ -26,15 +26,39 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column'
   },
+  btnRow: {
+    backgroundColor: '#006AEA',
+    flex:1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   whiteText: {
     color: 'white',
     textAlign: 'center',
-    padding: 10
+    padding: 10,
+    fontSize: 20
   },
+    whiteText2: {
+      color: 'white',
+      textAlign: 'center',
+      fontSize: 20,
+      padding: 10
+    },
   icon: {
     resizeMode: 'contain',
     height: 100,
     width:200
+  },
+  plusIcon: {
+    resizeMode: 'contain',
+    height:30,
+    width:30,
+  },
+  listIcon: {
+    resizeMode: 'center',
+    height:8,
+    width:8,
+    paddingTop:24
   },
   y2logo: {
     height: 30,
@@ -48,7 +72,7 @@ const styles = StyleSheet.create({
   },
   listText:{
     fontSize: 18,
-    padding: 10
+    paddingLeft:8
   },
   y2View: {
     padding: 20,
@@ -65,6 +89,13 @@ const styles = StyleSheet.create({
   box1: {
     backgroundColor: '#0018C6',
     height: 100
+
+  },
+  tOpac: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
+      padding: 15
   },
   box2: {
     backgroundColor: '#32BAFA'
@@ -74,6 +105,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#0018C6'
+  },
+  listView: {
+      justifyContent: 'flex-start',
+      flexDirection: 'row',
+      padding: 10
   },
   button1:{
     color: '#03fcc6'
@@ -124,7 +160,7 @@ class Select1Comp extends Component {
                 style={{
                     height: 1,
                     width: "100%",
-                    backgroundColor: "#000",
+                    backgroundColor: "#6435DE",
                 }}
             />
         );
@@ -181,22 +217,36 @@ class Select1Comp extends Component {
                 onPress={this.getListViewItem.bind(this, item)}
                 style={item.key === this.state.selected ? styles.selected : null}
                 >
-                <Text style={styles.listText}>{item.name}</Text>
+                <View style={styles.listView}>
+                    <Image
+                        style={styles.listIcon}
+                        source={require('./dot.png')}
+                    />
+                    <Text style={styles.listText}>{item.name}</Text>
+                </View>
             </TouchableOpacity>}
             ItemSeparatorComponent={this.renderSeparator}
       />
-      <Button
-        color = "#03fcc6"
-        onPress={this.showModal}
-        title= "addItem"
-
-      />
-        <Button
-          color = "#f54542"
-          onPress={this.removeItem}
-          title= "remove item"
-
-        />
+      <View style={styles.btnRow}>
+          <TouchableOpacity
+            style={{paddingTop:15}}
+            onPress={this.showModal}
+          >
+            <Image
+                style={styles.plusIcon}
+                source={require('./plus.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.removeItem}
+            style={{paddingTop:15, paddingLeft:15, paddingRight:10}}
+            >
+            <Image
+                style={styles.plusIcon}
+                source={require('./trash.png')}
+            />
+          </TouchableOpacity>
+        </View>
         <Modal
               animationType="slide"
               transparent={true}
@@ -282,7 +332,7 @@ const Select1 = ({ navigation }) => {
             </View>
             <View style={styles.y2View}>
                 <Text style={styles.y2Text}>
-                    Links from
+                    Select URL from
                 </Text>
                 <Image
                     style={styles.y2logo}
@@ -293,10 +343,16 @@ const Select1 = ({ navigation }) => {
                 <Select1Comp/>
             </View>
             <View style={styles.box1}>
-                <Button
-                    title="Compare Videos now"
+                <TouchableOpacity
+                    style={styles.tOpac}
                     onPress={() => navigation.navigate('YoutubeCompare', {vidlink: sour, ytID: ytID})}
-                />
+                >
+                <Text style={styles.whiteText2}>Compare Videos</Text>
+                 <Image
+                        style={styles.plusIcon}
+                        source={require('./next.png')}
+                    />
+                </TouchableOpacity>
             </View>
         </View>
     );
