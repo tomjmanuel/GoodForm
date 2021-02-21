@@ -234,7 +234,7 @@ class Select1Comp extends Component {
           >
             <Image
                 style={styles.plusIcon}
-                source={require('./plus.png')}
+                source={require('./plus2.png')}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -350,7 +350,7 @@ const Select1 = ({ navigation }) => {
                 <Text style={styles.whiteText2}>Compare Videos</Text>
                  <Image
                         style={styles.plusIcon}
-                        source={require('./next.png')}
+                        source={require('./next2.png')}
                     />
                 </TouchableOpacity>
             </View>

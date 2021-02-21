@@ -13,7 +13,7 @@ This page comes after select1 page where the user choose a local video and a you
 var { height, width } = Dimensions.get('window');
 console.log(width)
 var box_count = 2;
-var controlheight= 100;
+var controlheight= 140;
 var box_height = (height / box_count )- (controlheight/2)-10;
 
 const styles = StyleSheet.create({
@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   box1: {
-    backgroundColor: '#2196F3'
+    backgroundColor: '#0018C6'
   },
   box2: {
-    backgroundColor: '#8BC34A'
+    backgroundColor: '#0018C6'
   },
   box3: {
-    backgroundColor: '#e3aa1a',
+    backgroundColor: '#0018C6',
     height: box_height
   },
   buttonRow: {
@@ -40,11 +40,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: '100%',
-    backgroundColor: '#2196F3'
+    backgroundColor: '#0018C6',
+    paddingBottom: 20,
+    paddingTop: 20,
   },
   button: {
     width: '30%',
-    height: '100%'
+    height: '100%',
   }
 });
 
