@@ -32,7 +32,12 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    height: 50
   },
+    btnRowM: {
+      backgroundColor: 'white',
+      height: '20'
+    },
   whiteText: {
     color: 'white',
     textAlign: 'center',
@@ -89,7 +94,8 @@ const styles = StyleSheet.create({
   },
   box1: {
     backgroundColor: '#0018C6',
-    height: 100
+    height: 100,
+    overflow: 'hidden'
 
   },
   tOpac: {
@@ -98,8 +104,13 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       padding: 15
   },
+  mBtn: {
+    color: "#32BAFA"
+  },
   box2: {
-    backgroundColor: '#32BAFA'
+    height: box_height,
+    backgroundColor: '#32BAFA',
+    overflow: 'hidden'
   },
   box3: {
     justifyContent: 'center',
@@ -110,7 +121,8 @@ const styles = StyleSheet.create({
   listView: {
       justifyContent: 'flex-start',
       flexDirection: 'row',
-      padding: 10
+      padding: 10,
+      overflow: 'hidden'
   },
   button1:{
     color: '#03fcc6'
@@ -128,7 +140,14 @@ const styles = StyleSheet.create({
       shadowOffset: {
         width: 0,
         height: 2
-      }}
+      }},
+  m1: {
+    backgroundColor: '#DDDDDD',
+    resizeMode: 'contain',
+    padding: 10,
+    width: width-40
+  },
+  tInput: { height: 40, margin: 10, width: width-80, padding: 10, borderColor: 'gray', borderWidth: 1 }
 });
 
 
@@ -143,8 +162,8 @@ class Select1Comp extends Component {
     selected: '1',
     selectedVideo: '4M6wvGXeBeI',
     modalVis: false,
-    nickname: '',
-    vidInput: ''
+    nickname: 'Title',
+    vidInput: 'URL'
   }
 
     // this gets called after add item and selected
@@ -257,33 +276,32 @@ class Select1Comp extends Component {
               }}
             >
             <View style={styles.modalView}>
-              <Text>Video nickname</Text>
+              <View style={styles.m1}><Text style={styles.listText}>Add New Youtube Video</Text></View>
                   <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.tInput}
                     onChangeText={text => this.setState({nickname: text})}
                     value={this.state.nickname}
                   />
-              <Text>Youtube video URL</Text>
                 <TextInput
-                  style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                  style={styles.tInput}
                   onChangeText={text => this.setState({vidInput: text})}
                   value={this.state.vidInput}
                 />
-              <TouchableHighlight
+            <View style={{flex: 0, flexDirection:'row'}}>
+              <TouchableOpacity style={{backgroundColor: '#006AEA', padding:6,width:'40%'}}
                 onPress={() => {
                   this.setState({modalVis: false});
                   this.addItem();
                 }}
-              >
-                <Text>Save video link</Text>
-              </TouchableHighlight>
-                <TouchableHighlight
+              ><Text style={styles.y2Text}>Save</Text>
+              </TouchableOpacity>
+                <TouchableOpacity style={{marginLeft: 5,backgroundColor: '#ff3526', padding:6, width:'40%'}}
                   onPress={() => {
                     this.setState({modalVis: false});
                   }}
-                >
-                  <Text>Cancel</Text>
-                </TouchableHighlight>
+                ><Text style={styles.y2Text}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
             </View>
         </Modal>
       </>
@@ -341,7 +359,7 @@ const Select1 = ({ navigation }) => {
                 />
             </View>
             <View style={[styles.box, styles.box2]}>
-                <Select1Comp/>
+                <Select1Comp />
             </View>
             <View style={styles.box1}>
                 <TouchableOpacity
