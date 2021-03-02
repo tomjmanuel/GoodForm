@@ -89,13 +89,11 @@ const styles = StyleSheet.create({
     height: y2height
   },
   box: {
-    height: box_height,
-    overflow: 'hidden'
+    height: box_height
   },
   box1: {
     backgroundColor: '#0018C6',
-    height: 100,
-    overflow: 'hidden'
+    height: 100
 
   },
   tOpac: {
@@ -109,8 +107,7 @@ const styles = StyleSheet.create({
   },
   box2: {
     height: box_height,
-    backgroundColor: '#32BAFA',
-    overflow: 'hidden'
+    backgroundColor: '#32BAFA'
   },
   box3: {
     justifyContent: 'center',
@@ -121,8 +118,7 @@ const styles = StyleSheet.create({
   listView: {
       justifyContent: 'flex-start',
       flexDirection: 'row',
-      padding: 10,
-      overflow: 'hidden'
+      padding: 10
   },
   button1:{
     color: '#03fcc6'
@@ -230,7 +226,8 @@ class Select1Comp extends Component {
   const {data} = this.state
   return (
         <>
-        <FlatList
+        <View style={{height: box_height-60}}>
+        <FlatList style={{overflow: 'hidden'}}
             data={data}
             renderItem={({item}) =>
             <TouchableOpacity
@@ -246,27 +243,27 @@ class Select1Comp extends Component {
                 </View>
             </TouchableOpacity>}
             ItemSeparatorComponent={this.renderSeparator}
-      />
-      <View style={styles.btnRow}>
-          <TouchableOpacity
-            style={{paddingTop:15}}
-            onPress={this.showModal}
-          >
-            <Image
-                style={styles.plusIcon}
-                source={require('./plus2.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.removeItem}
-            style={{paddingTop:15, paddingLeft:15, paddingRight:10}}
-            >
-            <Image
-                style={styles.plusIcon}
-                source={require('./trash.png')}
-            />
-          </TouchableOpacity>
-        </View>
+      /></View>
+            <View style={styles.btnRow}>
+                <TouchableOpacity
+                  style={{paddingTop:15}}
+                  onPress={this.showModal}
+                >
+                  <Image
+                      style={styles.plusIcon}
+                      source={require('./plus2.png')}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.removeItem}
+                  style={{paddingTop:15, paddingLeft:15, paddingRight:10}}
+                  >
+                  <Image
+                      style={styles.plusIcon}
+                      source={require('./trash.png')}
+                  />
+                </TouchableOpacity>
+              </View>
         <Modal
               animationType="slide"
               transparent={true}
