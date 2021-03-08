@@ -18,7 +18,8 @@ sampleData = [
   {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle Backhand'},
   {key: '2', vidTag: '4M6wvGXeBeI', name: 'Paul Backhand'},
   {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage Video from euro open'}
-]
+];
+
 
 var ytID = "F0PW2sVi2EQ";
 
@@ -146,6 +147,26 @@ const styles = StyleSheet.create({
   tInput: { height: 40, margin: 10, width: width-80, padding: 10, borderColor: 'gray', borderWidth: 1 }
 });
 
+// check to see if listData has been stored in phone
+async function testMMKV(){
+    const MMKV = new MMKVStorage.Loader().initialize();
+    //await MMKV.setArrayAsync('string',sampleData);
+    let foo = await MMKV.getArrayAsync('listVals');
+    console.log(foo)
+    if (foo == null){
+        console.log('no previously saved data');
+        sampleData2 = sampleData;
+    } else {
+        console.log('found previously saved data');
+        sampleData2 = foo;
+    }
+    return sampleData2;
+}
+sampleData2 = testMMKV();
+console.log('here');
+console.log(sampleData2);
+
+
 
 class Select1Comp extends Component {
 
@@ -154,7 +175,7 @@ class Select1Comp extends Component {
   }
 
   state = {
-    data: sampleData,
+    data: sampleData2,
     selected: '1',
     selectedVideo: '4M6wvGXeBeI',
     modalVis: false,
