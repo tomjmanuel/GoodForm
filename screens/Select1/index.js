@@ -4,6 +4,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import { FlatList } from 'react-native-gesture-handler';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import parseYouTubeUrl from '../../parseYouTubeUrl';
+import MMKV from 'react-native-mmkv-storage';
 
 // get page dimensions
 var { height, width } = Dimensions.get('window');
@@ -11,14 +12,9 @@ var box_count = 2;
 var y2height= 80;
 var compare_height = 150;
 var box_height = (height-y2height-compare_height )/ box_count;
-
-stockData = [
-  {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle Backhand'},
-  {key: '2', vidTag: '4M6wvGXeBeI', name: 'Paul Backhand'},
-  {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage Video from euro open'}
-];
-
 var ytID = "F0PW2sVi2EQ";
+
+const MMKVStorage = new MMKV.Loader().withEncryption().initialize();
 
 const styles = StyleSheet.create({
   container: {
@@ -151,7 +147,7 @@ class Select1Comp extends Component {
   }
 
   state = {
-    data: stockData,
+    data: this.props.listData,
     selected: '1',
     selectedVideo: '4M6wvGXeBeI',
     modalVis: false,
@@ -207,6 +203,7 @@ class Select1Comp extends Component {
         this.setState({
             data: sampleData
         });
+        MMKVStorage.setArrayAsync('listData', sampleData);
     }
 
     removeItem = () => {
@@ -310,7 +307,7 @@ class Select1Comp extends Component {
   }
 }
 
-const Select1 = ({ navigation }) => {
+const Select1 = ({ navigation, route }) => {
 
     const [sour, setSour] = useState({uri: 'https://vjs.zencdn.net/v/oceans.mp4'});
 
@@ -360,7 +357,7 @@ const Select1 = ({ navigation }) => {
                 />
             </View>
             <View style={[styles.box, styles.box2]}>
-                <Select1Comp />
+                <Select1Comp listData={route.params.listData}/>
             </View>
             <View style={styles.box1}>
                 <TouchableOpacity
