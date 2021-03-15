@@ -1,25 +1,22 @@
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import { View, Image, Text, Button, StyleSheet, Alert, TouchableOpacity, TouchableHighlight, Dimensions, Modal, TextInput } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import { FlatList } from 'react-native-gesture-handler';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import parseYouTubeUrl from '../../parseYouTubeUrl';
-import MMKVStorage from "react-native-mmkv-storage";
 
 // get page dimensions
 var { height, width } = Dimensions.get('window');
-console.log(width)
 var box_count = 2;
 var y2height= 80;
 var compare_height = 150;
 var box_height = (height-y2height-compare_height )/ box_count;
 
-sampleData = [
+stockData = [
   {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle Backhand'},
   {key: '2', vidTag: '4M6wvGXeBeI', name: 'Paul Backhand'},
   {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage Video from euro open'}
 ];
-
 
 var ytID = "F0PW2sVi2EQ";
 
@@ -147,27 +144,6 @@ const styles = StyleSheet.create({
   tInput: { height: 40, margin: 10, width: width-80, padding: 10, borderColor: 'gray', borderWidth: 1 }
 });
 
-// check to see if listData has been stored in phone
-async function testMMKV(){
-    const MMKV = new MMKVStorage.Loader().initialize();
-    //await MMKV.setArrayAsync('string',sampleData);
-    let foo = await MMKV.getArrayAsync('listVals');
-    console.log(foo)
-    if (foo == null){
-        console.log('no previously saved data');
-        sampleData2 = sampleData;
-    } else {
-        console.log('found previously saved data');
-        sampleData2 = foo;
-    }
-    return sampleData2;
-}
-sampleData2 = testMMKV();
-console.log('here');
-console.log(sampleData2);
-
-
-
 class Select1Comp extends Component {
 
   constructor(props){
@@ -175,13 +151,20 @@ class Select1Comp extends Component {
   }
 
   state = {
-    data: sampleData2,
+    data: stockData,
     selected: '1',
     selectedVideo: '4M6wvGXeBeI',
     modalVis: false,
     nickname: 'Title',
     vidInput: 'URL'
   }
+    //
+    componentDidMount() {
+        console.log('mounted');
+        //savedData = testMMKV();
+        //this.setState({data: savedData});
+        //console.log(savedData);
+    }
 
     // this gets called after add item and selected
      componentDidUpdate(){

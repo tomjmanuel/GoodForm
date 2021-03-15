@@ -16,7 +16,7 @@ const LandingScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text>Public Landing Screen</Text>
         <Button
-          title="You vs. Youtube"
+          title="Goodform"
           onPress={() => navigation.navigate('Select1')}
         />
     </View>

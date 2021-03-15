@@ -11,6 +11,7 @@ import { version } from './package.json'
 // custom components and screens
 import YoutubeCompare from './screens/Youtube_compare';
 import Select1 from './screens/Select1';
+import LandingScreen from './screens/Landing'
 
 type Props = {};
 
@@ -20,6 +21,20 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator>
+          <RootStack.Screen
+              name="Landing"
+              component={LandingScreen}
+              options={{
+                title: 'Goodform',
+                headerStyle: {
+                  backgroundColor: '#ff3526',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }}
+              />
         <RootStack.Screen
             name="Select1"
             component={Select1}
