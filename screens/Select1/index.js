@@ -149,7 +149,7 @@ class Select1Comp extends Component {
   state = {
     data: this.props.listData,
     selected: '1',
-    selectedVideo: '4M6wvGXeBeI',
+    selectedVideo: 'F0PW2sVi2EQ',
     modalVis: false,
     nickname: 'Title',
     vidInput: 'URL'
@@ -220,6 +220,7 @@ class Select1Comp extends Component {
         this.setState({
             data: newData
         });
+        MMKVStorage.setArrayAsync('listData', newData);
     }
 
 

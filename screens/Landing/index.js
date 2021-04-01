@@ -1,6 +1,6 @@
 import React, {useEffect, useState}  from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import MMKV from 'react-native-mmkv-storage';
 // this is the Apps Landing page
 
@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  plusIcon: {
+      resizeMode: 'contain',
+      height:30,
+      width:30,
+    }
 });
 
 stockData = [
@@ -19,6 +24,8 @@ stockData = [
 ];
 
 const MMKVStorage = new MMKV.Loader().withEncryption().initialize();
+
+foo=0;
 
 const LandingScreen = ({ navigation }) => {
   const [arrayValue, setArrayValue] = useState([]);
@@ -30,8 +37,9 @@ const LandingScreen = ({ navigation }) => {
             setArrayValue(stockData)
             console.log('null');
         } else {
+            if (foo==0){
             setArrayValue(array);
-            console.log('found one: ')
+            }
         }
         //await MMKVStorage.setArrayAsync('array', new Array(16).fill());
         //await MMKVStorage.indexer.hasKey('array').then(console.log);
@@ -39,11 +47,15 @@ const LandingScreen = ({ navigation }) => {
     }, []);
   return (
     <View style={styles.container}>
-      <Text>Public Landing Screen</Text>
-        <Button
-          title="Goodform"
+        <TouchableOpacity
+          style={{paddingTop:15}}
           onPress={() => navigation.navigate('Select1', {listData: arrayValue})}
-        />
+        >
+          <Image
+              //style={styles.plusIcon}
+              source={require('./plus.png')}
+          />
+        </TouchableOpacity>
     </View>
   );
 };

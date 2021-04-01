@@ -25,7 +25,7 @@ const App = () => {
               name="Landing"
               component={LandingScreen}
               options={{
-                title: 'Goodform',
+                title: 'GoodForm',
                 headerStyle: {
                   backgroundColor: '#ff3526',
                 },
@@ -39,7 +39,7 @@ const App = () => {
             name="Select1"
             component={Select1}
             options={{
-              title: 'Select videos',
+              title: 'Select Videos',
               headerStyle: {
                 backgroundColor: '#ff3526',
               },
@@ -53,7 +53,7 @@ const App = () => {
             name="YoutubeCompare"
             component={YoutubeCompare}
             options={{
-              title: 'You vs. Youtube',
+              title: 'GoodForm',
               headerStyle: {
                 backgroundColor: '#ff3526',
               },
