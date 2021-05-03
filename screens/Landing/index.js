@@ -1,19 +1,24 @@
 import React, {useEffect, useState}  from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, Image, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, Button, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import MMKV from 'react-native-mmkv-storage';
 // this is the Apps Landing page
-
+var { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   plusIcon: {
-      resizeMode: 'contain',
-      height:30,
-      width:30,
+      resizeMode: 'center',
+      //height:30,
+      width:width,
+    },
+    text: {
+        color: 'black',
+        fontSize: 20
     }
 });
 
@@ -52,10 +57,11 @@ const LandingScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('Select1', {listData: arrayValue})}
         >
           <Image
-              //style={styles.plusIcon}
-              source={require('./plus.png')}
+              style={styles.plusIcon}
+              source={require('./sporticons.png')}
           />
         </TouchableOpacity>
+
     </View>
   );
 };

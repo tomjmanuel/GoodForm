@@ -152,7 +152,8 @@ class Select1Comp extends Component {
     selectedVideo: 'F0PW2sVi2EQ',
     modalVis: false,
     nickname: 'Title',
-    vidInput: 'URL'
+    vidInput: 'URL',
+    nextKey: this.props.listData.length+1
   }
     //
     componentDidMount() {
@@ -165,8 +166,8 @@ class Select1Comp extends Component {
     // this gets called after add item and selected
      componentDidUpdate(){
        console.log('Updated');
-       console.log(this.state.nickname);
-       console.log(this.state.vidInput);
+       console.log(this.state.selected);
+       //console.log(this.state.vidInput);
        ytID = this.state.selectedVideo;
      }
 
@@ -195,13 +196,15 @@ class Select1Comp extends Component {
     // will eventually be called after modal based input
     addItem = () => {
         console.log('addItem');
-        var LL = this.state.data.length + 1;
-        var lS = LL.toString();
+        //var LL = this.state.data.length + 1;
+        //var lS = LL.toString();
+        var lS = this.state.nextKey.toString();
         const result = parseYouTubeUrl(this.state.vidInput);
         console.log(result);
         sampleData = [...this.state.data , {key : lS, vidTag: result.videoId, name: this.state.nickname}];
         this.setState({
-            data: sampleData
+            data: sampleData,
+            nextKey: this.state.nextKey+1
         });
         MMKVStorage.setArrayAsync('listData', sampleData);
     }
@@ -210,11 +213,17 @@ class Select1Comp extends Component {
         console.log('removeItem');
         // iterate through data
         var LL = this.state.data.length+1;
+        //var LL = this.state.nextKey;
         var newData = [];
         for (var i=1; i<LL; i++){
-            if (i.toString()!=this.state.selected){
-                console.log(i.toString());
+            console.log(this.state.data[i-1].key);
+            //if (i.toString()!=this.state.selected){
+            if (this.state.data[i-1].key!=this.state.selected){
+                //console.log(i.toString());
                 newData.push(this.state.data[i-1]);
+            } else {
+                console.log('removed');
+                console.log(this.state.data[i-1].key);
             }
         }
         this.setState({
