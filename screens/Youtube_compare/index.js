@@ -13,7 +13,7 @@ This page comes after select1 page where the user choose a local video and a you
 var { height, width } = Dimensions.get('window');
 console.log(width)
 var box_count = 2;
-var controlheight= 100;
+var controlheight= 140;
 var box_height = (height / box_count )- (controlheight/2)-10;
 
 const styles = StyleSheet.create({
@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   box1: {
-    backgroundColor: '#2196F3'
+    backgroundColor: '#0018C6'
   },
   box2: {
-    backgroundColor: '#8BC34A'
+    backgroundColor: '#0018C6'
   },
   box3: {
-    backgroundColor: '#e3aa1a',
+    backgroundColor: '#0018C6',
     height: box_height
   },
   buttonRow: {
@@ -40,11 +40,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: '100%',
-    backgroundColor: '#2196F3'
+    backgroundColor: '#0018C6',
+    paddingBottom: 20,
+    paddingTop: 20,
   },
   button: {
     width: '30%',
-    height: '100%'
+    height: '100%',
   }
 });
 
@@ -101,13 +103,9 @@ class VideoComp extends Component {
         setTimeout(() => {this.togglePlayback()}, 50);
     }
 
-    resetPlayback = () =>{
-        this.togglePlayback();
-    }
-
     stepBackward = () => {
         if (this.state.mode =='Local' || this.state.mode =='Both'){
-            this.player.seek(this.state.progress-.5,0);
+            this.player.seek(this.state.progress-(1 * this.state.speed),0);
             };
 
         if (this.state.mode =='Youtube' || this.state.mode == 'Both'){
@@ -224,7 +222,7 @@ class VideoComp extends Component {
             <View style={[styles.box, styles.box1]}>
                 <YouTube
                   apiKey = "AIzaSyBU2qiNfENE59bF895o5Twoo4qu8MYzW90"
-                  videoId="F0PW2sVi2EQ" // The YouTube video ID
+                  videoId={this.props.ytID} // The YouTube video ID
                   onError={e=> {this.setState({error: e.error});}}
                   showFullscreenButton = { false }
                   modestbranding = { true }
@@ -312,7 +310,7 @@ const Youtube_compare = ({ navigation, route }) => {
   }
   return (
     <>
-        <VideoComp source={route.params.vidlink}/>
+        <VideoComp source={route.params.vidlink} ytID={route.params.ytID}/>
     </>
   );
 };
