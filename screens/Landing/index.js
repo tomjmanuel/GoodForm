@@ -38,7 +38,7 @@ const LandingScreen = ({ navigation }) => {
     useFocusEffect(() => {
       (async () => {
         let array = await MMKVStorage.getArrayAsync('listData');
-        if (array?.length == 1 || array == null){
+        if (array == null){
             setArrayValue(stockData)
             console.log('null');
         } else {
