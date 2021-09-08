@@ -75,11 +75,11 @@ class VideoComp extends Component {
     }
 
     stepForward = () => {
-        if (this.state.mode =='Local' || this.state.mode =='Both'){
+        if (this.state.mode =='Bottom' || this.state.mode =='Both'){
             this.player.seek(this.state.progress+3,0);
             };
 
-        if (this.state.mode =='Youtube' || this.state.mode == 'Both'){
+        if (this.state.mode =='Top' || this.state.mode == 'Both'){
             //youtube portion
             this._youTubeRef.current.seekTo(this.state.currentTime+3);
             if (this._youTubeRef.current) {
@@ -104,11 +104,11 @@ class VideoComp extends Component {
     }
 
     stepBackward = () => {
-        if (this.state.mode =='Local' || this.state.mode =='Both'){
+        if (this.state.mode =='Bottom' || this.state.mode =='Both'){
             this.player.seek(this.state.progress-(1 * this.state.speed),0);
             };
 
-        if (this.state.mode =='Youtube' || this.state.mode == 'Both'){
+        if (this.state.mode =='Top' || this.state.mode == 'Both'){
             //youtube portion
             this._youTubeRef.current.seekTo(this.state.currentTime-1);
             if (this._youTubeRef.current) {
@@ -133,12 +133,12 @@ class VideoComp extends Component {
     }
 
     togglePlayback = () => {
-        if (this.state.mode == 'Youtube'|| this.state.mode == 'Both'){
+        if (this.state.mode == 'Top'|| this.state.mode == 'Both'){
             this.setState({
                 pausedYT: !this.state.pausedYT
             });
         }
-        if (this.state.mode == 'Local'|| this.state.mode == 'Both'){
+        if (this.state.mode == 'Bottom'|| this.state.mode == 'Both'){
             this.setState({
                 pausedV: !this.state.pausedV
             });
@@ -146,19 +146,19 @@ class VideoComp extends Component {
     }
 
     changeMode = () => {
-        if (this.state.mode == 'Youtube'){
+        if (this.state.mode == 'Top'){
             this.setState({
-                mode: 'Local'
+                mode: 'Bottom'
             });
         }
-        if (this.state.mode == 'Local'){
+        if (this.state.mode == 'Bottom'){
             this.setState({
                 mode: 'Both'
             });
         }
         if (this.state.mode == 'Both'){
             this.setState({
-                mode: 'Youtube'
+                mode: 'Top'
             });
         }
         console.log(this.state.mode);

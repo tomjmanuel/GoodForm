@@ -38,6 +38,12 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 20
   },
+  blackText: {
+      color: 'black',
+      textAlign: 'center',
+      padding: 10,
+      fontSize: 20
+    },
     whiteText2: {
       color: 'white',
       textAlign: 'center',
@@ -107,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#0018C6'
+    backgroundColor: 'white'
   },
   listView: {
       justifyContent: 'flex-start',
@@ -284,7 +290,7 @@ class Select1Comp extends Component {
               }}
             >
             <View style={styles.modalView}>
-              <View style={styles.m1}><Text style={styles.listText}>Add New Youtube Video</Text></View>
+              <View style={styles.m1}><Text style={styles.listText}>Add New Comparison Video</Text></View>
                   <TextInput
                     style={styles.tInput}
                     onChangeText={text => this.setState({nickname: text})}
@@ -338,6 +344,7 @@ const Select1 = ({ navigation, route }) => {
               console.log('ImagePicker Error: ', response.error);
             } else {
               setSour(response.uri);
+              Alert.alert('Video selection loaded');
             }
           });
     }
@@ -350,7 +357,7 @@ const Select1 = ({ navigation, route }) => {
                     onPress={selectImage}
 
                 >
-                    <Text style={styles.whiteText}>Select your video</Text>
+                    <Text style={styles.blackText}>Select your video here</Text>
                     <Image
                         style={styles.icon}
                         source={require('./cameraicon.png')}
@@ -359,12 +366,8 @@ const Select1 = ({ navigation, route }) => {
             </View>
             <View style={styles.y2View}>
                 <Text style={styles.y2Text}>
-                    Select URL from
+                    List of comparison video links:
                 </Text>
-                <Image
-                    style={styles.y2logo}
-                    source={require('./yt_logo_rgb_dark.png')}
-                />
             </View>
             <View style={[styles.box, styles.box2]}>
                 <Select1Comp listData={route.params.listData}/>
