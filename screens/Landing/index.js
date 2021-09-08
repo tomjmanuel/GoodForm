@@ -25,7 +25,11 @@ const styles = StyleSheet.create({
 stockData = [
   {key: '1', vidTag: 'F0PW2sVi2EQ', name: 'Eagle Backhand'},
   {key: '2', vidTag: '4M6wvGXeBeI', name: 'Paul Backhand'},
-  {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage Video from euro open'}
+  {key: '3', vidTag: 'GfjiaZ9DvXQ', name: 'Collage Video from euro open'},
+  {key: '4', vidTag: 'RMqAGcMdpLA', name: 'Paul Finland'},
+  {key: '5', vidTag: '6YqClC9fjac', name: 'Bradley Williams Maple'},
+  {key: '6', vidTag: 'AwYvav4xCR8', name: 'Aussie Open Compilation'},
+  {key: '7', vidTag: 'nuEFQkxqBSc', name: 'Waco Open Compilation'},
 ];
 
 const MMKVStorage = new MMKV.Loader().withEncryption().initialize();
